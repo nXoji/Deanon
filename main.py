@@ -1,3 +1,4 @@
+import os
 import time
 from colorama import init, Fore, Style
 
@@ -11,7 +12,8 @@ red = Fore.RED
 reset = Style.RESET_ALL
 
 
-print('\n ██████╗░███████╗░█████╗░███╗░░██╗░█████╗░███╗░░██╗')
+os.system('cls||clear')
+print('\n\n\n ██████╗░███████╗░█████╗░███╗░░██╗░█████╗░███╗░░██╗')
 time.sleep(0.1)
 print(' ██╔══██╗██╔════╝██╔══██╗████╗░██║██╔══██╗████╗░██║')
 time.sleep(0.1)
@@ -24,12 +26,13 @@ time.sleep(0.2)
 print(' ╚═════╝░╚══════╝╚═╝░░╚═╝╚═╝░░╚══╝░╚════╝░╚═╝░░╚══╝')
 time.sleep(0.2)
 print(Style.BRIGHT + ' Разработчик:  H.I.M.     v0.1      Made in Ukraine' + reset)
+time.sleep(2)
 
 
 def main():
 	while True:
-		print('''\n\n
-
+		os.system('cls||clear')
+		print('''
  ╭━╮╭━┳━━━┳━╮╱╭┳╮╱╭╮
  ┃┃╰╯┃┃╭━━┫┃╰╮┃┃┃╱┃┃
  ┃╭╮╭╮┃╰━━┫╭╮╰╯┃┃╱┃┃
