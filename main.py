@@ -2,9 +2,9 @@ import os
 import time
 from colorama import init, Fore, Style
 
-import social_deanon as sd
-import ip_deanon as idn
-import phone_deanon as phd
+import systemFiles.social_deanon as sd
+import systemFiles.ip_deanon as idn
+import systemFiles.phone_deanon as phd
 
 init()
 
