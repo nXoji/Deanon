@@ -1,70 +1,55 @@
-import requests
-import json
-
-def PhoneNumber():
-	phone = input(' [+] Enter phone: ')
-
-	try:
-		getInfo = f'https://htmlweb.ru/geo/api.php?json&telcod={phone}'
-		infoPhone = requests.get( getInfo )
-		    
-		infoPhone = infoPhone.json()
-		uty = requests.get('https://api.whatsapp.com/send?phone='+phone)
-		if uty.status_code==200:
-			utl2 = ' Есть'
-		else:
-			utl2 = ' Не неайден '
-
-		country_id = infoPhone["country"]["id"]
-		if country_id == 'RU':
-			print( " ============================================== " )
-			print( u"  Номер:       ", "+" + phone )
-			print( u"  Страна:      ", infoPhone["country"]["english"] )
-			print( u"  Регион:      ", infoPhone["region"]["english"] )
-			print( u"  Округ:       ", infoPhone["region"]["okrug"] )
-			print( u"  Оператор:    ", infoPhone["0"]["oper"] )
-			print( u"  Часть света: ", infoPhone["country"]["location"] )
-			print( "  WhatsApp:   ", utl2)
-			print( " ============================================== " )
-
-		elif country_id == 'US':
-			print( " ==================================== " )
-			print( u"  Номер:       ", "+" + phone )
-			print( u"  Страна:      ", infoPhone["country"]["english"] )
-			print( u"  Оператор:    ", infoPhone["0"]["oper"] )
-			print( u"  Часть света: ", infoPhone["country"]["location"] )
-			print( "  WhatsApp:   ", utl2)
-			print( " ==================================== " )
-
-		elif country_id == 'DE':
-			print( " ==================================== " )
-			print( u"  Номер:       ", "+" + phone )
-			print( u"  Страна:      ", infoPhone["country"]["english"] )
-			print( u"  Город:       ", infoPhone["0"]["english"])
-			print( u"  Регион:      ", infoPhone["region"]["english"] )
-			print( u"  Часть света: ", infoPhone["country"]["location"] )
-			print( "  WhatsApp:   ", utl2)
-			print( " ==================================== " )
-
-		else:
-			print( " ============================== " )
-			print( u"  Номер:       ", "+" + phone )
-			print( u"  Страна:      ", infoPhone["country"]["english"] )
-			print( u"  Столица:     ", infoPhone["capital"]["english"])
-			print( u"  Оператор:    ", infoPhone["0"]["oper_brand"] )
-			print( u"  Часть света: ", infoPhone["country"]["location"] )
-			print( "  WhatsApp:   ", utl2)
-			print( " ============================== " )
-	except:
-		print(' ОШИБКА! Возможно вам надо воспользоваться vpn!')
-	input()
+from time import time
+import pycountry
+import phonenumbers
+from phonenumbers import carrier, timezone, region_code_for_country_code
 
 
+class PhoneNumber:
+    def __init__(self):
+        self.number = input(' [+] Enter phone: ')
+        self.number = self.number.replace('+', '')
 
-def main():
-	print(' Использование: \n n.PhoneNumber')
-	PhoneNumber()
+        self.output()
+
+    def defaultInfo(self):
+        try:
+            phoneNum = phonenumbers.parse(f'+{self.number}', None)
+        except:
+            raise ValueError('Номер введён не верно')
+
+        countryIso = region_code_for_country_code(phoneNum.country_code)
+        country = pycountry.countries.get(alpha_2=countryIso)
+
+        operator = carrier.name_for_number(phoneNum, None)
+        if operator == '':
+            operator = 'Не найдено'
+
+        timezoneInfo = timezone.time_zones_for_number(phoneNum)
+        if len(timezoneInfo) > 1:
+            timezoneInfo = f'{len(timezoneInfo)} штук'
+        elif len(timezoneInfo) == 1:
+            timezoneInfo = ''.join(timezoneInfo)
+
+        out = {
+            'country': country.name,
+            'operator': operator,
+            'timezone': timezoneInfo
+        }
+
+        return out
+
+    def output(self):
+        data = self.defaultInfo()
+
+        print(f''' =====================================
+   Номер:         +{self.number}
+   Страна:        {data['country']}
+   Оператор:      {data['operator']}
+   Часовой пояс:  {data['timezone']}
+ =====================================''')
+
+        input()
 
 
 if __name__ == '__main__':
-	main()
+    PhoneNumber()
