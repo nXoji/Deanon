@@ -17,8 +17,14 @@ class IpInfo:
 
     def defaultInfo(self):
         r = requests.get(f'http://ip-api.com/json/{self.ip}').json()
+        host = socket.getnameinfo((self.ip, 0), socket.NI_NAMEREQD)
 
-        return r
+        out = {
+            'api': r,
+            'host': host
+        }
+
+        return out
 
     def openPorts(self):
         openPortsList = []
@@ -41,17 +47,20 @@ class IpInfo:
 
     def output(self):
         default = self.defaultInfo()
+        api = default['api']
+        host = default['host']
+
         openPorts = self.openPorts()
 
         print(f''' =====================================
   IP adress:   {self.ip}
-  Country:     {default["country"]}\n  CountryCode: {default["countryCode"]} 
-  Region:      {default["region"]}\n  Region Name: {default["regionName"]}
-  City:        {default["city"]}\n  Zip:         {default["zip"]}
-  Latinude:    {default["lat"]}\n  Longitude:   {default["lon"]}
-  Timezone:    {default["timezone"]}\n  ISP:         {default["isp"]}
-  Org:         {default["org"]}\n  As:          {default["as"]}
-  Open ports:  {', '.join(openPorts)}
+  Country:     {api["country"]}\n  CountryCode: {api["countryCode"]} 
+  Region:      {api["region"]}\n  Region Name: {api["regionName"]}
+  City:        {api["city"]}\n  Zip:         {api["zip"]}
+  Latinude:    {api["lat"]}\n  Longitude:   {api["lon"]}
+  Timezone:    {api["timezone"]}\n  ISP:         {api["isp"]}
+  Org:         {api["org"]}\n  As:          {api["as"]}
+  Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
  =====================================''')
 
         input()
