@@ -48,7 +48,7 @@ def main():
         elif home_page == 1:
             sd.SocialDeanon()
         elif home_page == 2:
-            idn.IPinfo()
+            idn.IpInfo()
         elif home_page == 3:
             idn.BSSIDinfo()
         elif home_page == 4:

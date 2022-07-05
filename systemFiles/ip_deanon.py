@@ -1,22 +1,37 @@
 import requests
+import ipaddress
 
 
-def IPinfo():
-    query = input('\n [+] Ip For Scan: ')
-    try:
-        r = requests.get(f'http://ip-api.com/json/{query}').json()
-        print(' =====================================')
-        print(f'  IP adress:   {query}')
-        print(
-            f'  Country:     {r["country"]}\n  CountryCode: {r["countryCode"]}\n  Region:      {r["region"]}')
-        print(
-            f'  Region Name: {r["regionName"]}\n  City:        {r["city"]}\n  Zip:         {r["zip"]}\n  Latinude:    {r["lat"]}')
-        print(
-            f'  Longitude:   {r["lon"]}\n  Timezone:    {r["timezone"]}\n  ISP:         {r["isp"]}\n  Org:         {r["org"]}\n  As:          {r["as"]}')
-        print(' =====================================')
-    except:
-        print(f' Не найдено!')
-    input()
+class IpInfo:
+    def __init__(self):
+        self.ip = input('\n [+] IP For Scan: ')
+
+        try:
+            ipaddress.ip_address(self.ip)
+        except ValueError:
+            raise ValueError('IP адресс введён неверно')
+
+        self.output()
+
+    def defaultInfo(self):
+        r = requests.get(f'http://ip-api.com/json/{self.ip}').json()
+
+        return r
+
+    def output(self):
+        default = self.defaultInfo()
+
+        print(f''' =====================================
+  IP adress:   {self.ip}
+  Country:     {default["country"]}\n  CountryCode: {default["countryCode"]} 
+  Region:      {default["region"]}\n  Region Name: {default["regionName"]}
+  City:        {default["city"]}\n  Zip:         {default["zip"]}
+  Latinude:    {default["lat"]}\n  Longitude:   {default["lon"]}
+  Timezone:    {default["timezone"]}\n  ISP:         {default["isp"]}
+  Org:         {default["org"]}\n  As:          {default["as"]}
+ =====================================''')
+
+        input()
 
 
 def BSSIDinfo():
@@ -44,7 +59,7 @@ def BSSIDinfo():
 
 
 def main():
-    print(' Использование:\n n.IPinfo\n n.IPtorrent\n n.BSSIDinfo')
+    print(' Использование:\n n.IpInfo\n n.BSSIDinfo')
 
 
 if __name__ == '__main__':
