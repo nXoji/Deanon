@@ -1,3 +1,5 @@
+import socket
+import threading
 import requests
 import ipaddress
 
@@ -18,8 +20,28 @@ class IpInfo:
 
         return r
 
+    def openPorts(self):
+        openPortsList = []
+
+        def scan_port(ip,port):
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.5)
+            try:
+                sock.connect((ip,port))
+                openPortsList.append(str(port))
+                sock.close()
+            except:
+                pass
+
+        for i in range(65535):
+            potoc = threading.Thread(target=scan_port, args=(self.ip, i))
+            potoc.start()
+
+        return openPortsList
+
     def output(self):
         default = self.defaultInfo()
+        openPorts = self.openPorts()
 
         print(f''' =====================================
   IP adress:   {self.ip}
@@ -29,6 +51,7 @@ class IpInfo:
   Latinude:    {default["lat"]}\n  Longitude:   {default["lon"]}
   Timezone:    {default["timezone"]}\n  ISP:         {default["isp"]}
   Org:         {default["org"]}\n  As:          {default["as"]}
+  Open ports:  {', '.join(openPorts)}
  =====================================''')
 
         input()
