@@ -66,12 +66,3 @@ def SocialDeanon():
     else:
         print('\n Этот ник в социальных сетях не найден!')
     input()
-
-
-def main():
-    print("""Использование:
-        N.SocialDeanon""")
-
-
-if __name__ == '__main__':
-    main()

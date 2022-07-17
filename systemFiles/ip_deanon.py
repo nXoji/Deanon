@@ -29,11 +29,11 @@ class IpInfo:
     def openPorts(self):
         openPortsList = []
 
-        def scan_port(ip,port):
+        def scan_port(ip, port):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(0.5)
             try:
-                sock.connect((ip,port))
+                sock.connect((ip, port))
                 openPortsList.append(str(port))
                 sock.close()
             except:
@@ -54,7 +54,7 @@ class IpInfo:
 
         print(f''' =====================================
   IP adress:   {self.ip}
-  Country:     {api["country"]}\n  CountryCode: {api["countryCode"]} 
+  Country:     {api["country"]}\n
   Region:      {api["region"]}\n  Region Name: {api["regionName"]}
   City:        {api["city"]}\n  Zip:         {api["zip"]}
   Latinude:    {api["lat"]}\n  Longitude:   {api["lon"]}
@@ -88,11 +88,3 @@ def BSSIDinfo():
     except:
         print(f' НАПИШИ ВЕРНО!')
     input()
-
-
-def main():
-    print(' Использование:\n n.IpInfo\n n.BSSIDinfo')
-
-
-if __name__ == '__main__':
-    main()
