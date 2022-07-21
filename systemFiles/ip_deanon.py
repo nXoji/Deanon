@@ -73,6 +73,9 @@ class IpInfo:
         result1, len1 = monitoring1()
         result2, len2 = monitoring2()
 
+        if len1 + len2 == 0:
+            return f'{result1}, {result2}'
+
         if result1 == result2:
             return f'{result1}, и ещё {len1 + len2}'
         else:
