@@ -1,4 +1,3 @@
-from time import time
 import pycountry
 import phonenumbers
 from phonenumbers import carrier, timezone, region_code_for_country_code

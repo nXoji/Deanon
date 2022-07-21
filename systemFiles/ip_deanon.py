@@ -2,6 +2,7 @@ import socket
 import threading
 import requests
 import ipaddress
+from bs4 import BeautifulSoup
 
 
 class IpInfo:
@@ -45,22 +46,56 @@ class IpInfo:
 
         return openPortsList
 
+    def minecraft(self):
+
+        def monitoring1():
+            url = f'https://mc-servera.net/search?q={self.ip}'
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'lxml')
+            quotes = soup.find_all('a', class_='s-link')
+
+            x = quotes[0].text
+            y = len(quotes) - 1
+
+            return x, y
+
+        def monitoring2():
+            url = f'https://minecraftrating.ru/search/{self.ip}/'
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'lxml')
+            quotes = soup.find_all('div', class_='name')
+
+            x = quotes[0].text
+            y = len(quotes) - 1
+
+            return x, y
+
+        result1, len1 = monitoring1()
+        result2, len2 = monitoring2()
+
+        if result1 == result2:
+            return f'{result1}, и ещё {len1 + len2}'
+        else:
+            return f"{result1}, и ещё {len1 + len2 + 1}"
+
     def output(self):
         default = self.defaultInfo()
         api = default['api']
         host = default['host']
 
         openPorts = self.openPorts()
+        minecraft = self.minecraft()
 
         print(f''' =====================================
   IP adress:   {self.ip}
-  Country:     {api["country"]}\n
+  Country:     {api["country"]}
   Region:      {api["region"]}\n  Region Name: {api["regionName"]}
   City:        {api["city"]}\n  Zip:         {api["zip"]}
   Latinude:    {api["lat"]}\n  Longitude:   {api["lon"]}
   Timezone:    {api["timezone"]}\n  ISP:         {api["isp"]}
   Org:         {api["org"]}\n  As:          {api["as"]}
   Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
+  Minecraft:   {minecraft}
  =====================================''')
 
         input()
@@ -88,3 +123,5 @@ def BSSIDinfo():
     except:
         print(f' НАПИШИ ВЕРНО!')
     input()
+
+
