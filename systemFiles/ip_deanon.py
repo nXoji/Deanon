@@ -47,39 +47,17 @@ class IpInfo:
         return openPortsList
 
     def minecraft(self):
+        url = f'https://mc-servera.net/search?q={self.ip}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        quotes = soup.find_all('a', class_='s-link')
 
-        def monitoring1():
-            url = f'https://mc-servera.net/search?q={self.ip}'
-            response = requests.get(url)
-            soup = BeautifulSoup(response.text, 'lxml')
-            quotes = soup.find_all('a', class_='s-link')
-
-            x = quotes[0].text
-            y = len(quotes) - 1
-
-            return x, y
-
-        def monitoring2():
-            url = f'https://minecraftrating.ru/search/{self.ip}/'
-            response = requests.get(url)
-            soup = BeautifulSoup(response.text, 'lxml')
-            quotes = soup.find_all('div', class_='name')
-
-            x = quotes[0].text
-            y = len(quotes) - 1
-
-            return x, y
-
-        result1, len1 = monitoring1()
-        result2, len2 = monitoring2()
-
-        if len1 + len2 == 0:
-            return f'{result1}, {result2}'
-
-        if result1 == result2:
-            return f'{result1}, и ещё {len1 + len2}'
-        else:
-            return f"{result1}, и ещё {len1 + len2 + 1}"
+        if len(quotes) == 0:
+            return "Не найдено"
+        elif len(quotes) == 1:
+            return quotes.text
+        elif len(quotes) > 1:
+            return f"{quotes[0].text} и {len(quotes) - 1} других"
 
     def csgo(self):
         url = f'https://www.gametracker.com/search/csgo/?query={self.ip}'
