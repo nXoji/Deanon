@@ -81,6 +81,21 @@ class IpInfo:
         else:
             return f"{result1}, и ещё {len1 + len2 + 1}"
 
+    def csgo(self):
+        url = f'https://www.gametracker.com/search/csgo/?query={self.ip}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        trs = soup.find_all('tr')
+
+        texts = trs[1].find_all('a')
+        text = texts[1].text
+        result = text.strip()
+
+        if result != "Teams":
+            return result
+        else:
+            return "Не найдено"
+
     def output(self):
         default = self.defaultInfo()
         api = default['api']
@@ -88,6 +103,7 @@ class IpInfo:
 
         openPorts = self.openPorts()
         minecraft = self.minecraft()
+        csgo = self.csgo()
 
         print(f''' =====================================
   IP adress:   {self.ip}
@@ -98,7 +114,7 @@ class IpInfo:
   Timezone:    {api["timezone"]}\n  ISP:         {api["isp"]}
   Org:         {api["org"]}\n  As:          {api["as"]}
   Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
-  Minecraft:   {minecraft}
+  Minecraft:   {minecraft}\n  CS:GO:       {csgo}
  =====================================''')
 
         input()
@@ -126,5 +142,3 @@ def BSSIDinfo():
     except:
         print(f' НАПИШИ ВЕРНО!')
     input()
-
-
