@@ -46,19 +46,6 @@ class IpInfo:
 
         return openPortsList
 
-    def minecraft(self):
-        url = f'https://mc-servera.net/search?q={self.ip}'
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'lxml')
-        quotes = soup.find_all('a', class_='s-link')
-
-        if len(quotes) == 0:
-            return "Не найдено"
-        elif len(quotes) == 1:
-            return quotes.text
-        elif len(quotes) > 1:
-            return f"{quotes[0].text} и {len(quotes) - 1} других"
-
     def csgo(self):
         url = f'https://www.gametracker.com/search/csgo/?query={self.ip}'
         response = requests.get(url)
@@ -74,6 +61,32 @@ class IpInfo:
         else:
             return "Не найдено"
 
+    def minecraft(self):
+        url = f'https://mc-servera.net/search?q={self.ip}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        quotes = soup.find_all('a', class_='s-link')
+
+        if len(quotes) == 0:
+            return "Не найдено"
+        elif len(quotes) == 1:
+            return quotes.text
+        elif len(quotes) > 1:
+            return f"{quotes[0].text} и {len(quotes) - 1} других"
+
+    def unturned(self):
+        url = f'https://www.trackyserver.com/unturned-server/1?s={self.ip}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        quotes = soup.find_all('h4', class_='no-margin')
+
+        if len(quotes) == 0:
+            return "Не найдено"
+        elif len(quotes) == 1:
+            return quotes.text
+        elif len(quotes) > 1:
+            return f"{quotes[0].text} и {len(quotes) - 1} других"
+
     def output(self):
         default = self.defaultInfo()
         api = default['api']
@@ -81,6 +94,7 @@ class IpInfo:
 
         openPorts = self.openPorts()
         minecraft = self.minecraft()
+        unturned = self.unturned()
         csgo = self.csgo()
 
         print(f''' =====================================
@@ -93,6 +107,7 @@ class IpInfo:
   Org:         {api["org"]}\n  As:          {api["as"]}
   Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
   Minecraft:   {minecraft}\n  CS:GO:       {csgo}
+  Unturned:    {unturned}
  =====================================''')
 
         input()
