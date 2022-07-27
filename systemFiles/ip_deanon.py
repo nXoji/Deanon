@@ -87,15 +87,29 @@ class IpInfo:
         elif len(quotes) > 1:
             return f"{quotes[0].text} и {len(quotes) - 1} других"
 
+    def arma(self):
+        url = f'https://www.gametracker.com/search/arma3/?query={self.ip}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        trs = soup.find_all('tr')
+
+        texts = trs[1].find_all('a')
+        text = texts[1].text
+        result = text.strip()
+
+        print(result)
+
+        if result != "Teams":
+            return result
+        else:
+            return "Не найдено"
+
     def output(self):
         default = self.defaultInfo()
         api = default['api']
         host = default['host']
 
         openPorts = self.openPorts()
-        minecraft = self.minecraft()
-        unturned = self.unturned()
-        csgo = self.csgo()
 
         print(f''' =====================================
   IP adress:   {self.ip}
@@ -106,8 +120,8 @@ class IpInfo:
   Timezone:    {api["timezone"]}\n  ISP:         {api["isp"]}
   Org:         {api["org"]}\n  As:          {api["as"]}
   Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
-  Minecraft:   {minecraft}\n  CS:GO:       {csgo}
-  Unturned:    {unturned}
+  Minecraft:   {self.minecraft()}\n  CS:GO:       {self.csgo()}
+  Unturned:    {self.unturned()}\n  Arma 3:      {self.arma()}
  =====================================''')
 
         input()
