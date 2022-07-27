@@ -97,21 +97,27 @@ class IpInfo:
         text = texts[1].text
         result = text.strip()
 
-        print(result)
-
         if result != "Teams":
             return result
         else:
             return "Не найдено"
 
     def output(self):
+
+        def len_design():
+            list = [len(self.csgo()), len(self.minecraft()),
+                    len(self.unturned()), len(self.arma())]
+            max_len = max(list)
+
+            return 14 + max_len + 1
+
         default = self.defaultInfo()
         api = default['api']
         host = default['host']
 
         openPorts = self.openPorts()
 
-        print(f''' =====================================
+        print(' ' + "="*len_design() + f'''
   IP adress:   {self.ip}
   Country:     {api["country"]}
   Region:      {api["region"]}\n  Region Name: {api["regionName"]}
@@ -122,7 +128,7 @@ class IpInfo:
   Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
   Minecraft:   {self.minecraft()}\n  CS:GO:       {self.csgo()}
   Unturned:    {self.unturned()}\n  Arma 3:      {self.arma()}
- =====================================''')
+ ''' + "="*len_design())
 
         input()
 
