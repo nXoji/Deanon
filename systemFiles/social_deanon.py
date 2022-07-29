@@ -1,5 +1,6 @@
 import requests
-from colorama import init, Fore, Style
+from bs4 import BeautifulSoup
+from colorama import Fore, Style
 
 red = Fore.RED
 green = Fore.GREEN
@@ -12,6 +13,19 @@ class SocialDeanon:
         self.nickname = self.nickname.replace('@', '')
 
         self.output()
+
+    def telegram(self):
+        url = f'https://t.me/{self.nickname}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml')
+        quote = soup.find('div', class_="tgme_page_description")
+
+        temp = quote.text.strip()
+
+        if temp != f"If you have Telegram, you can contact @{self.nickname} right away.":
+            return f"  {url}\n"
+        else:
+            return ""
 
     def availability(self):
         req_list = [
@@ -36,7 +50,6 @@ class SocialDeanon:
 
         req_answer = []
 
-        i = 1
         for req_url in req_list:
             social_req = req_url + self.nickname
 
@@ -62,7 +75,7 @@ class SocialDeanon:
         elif q > 5 and q <= 12:
             ravno = ' ================================================'
         elif q > 12:
-            ravno - ' ============================================================='
+            ravno = ' ============================================================='
         else:
             ravno = 'ERROR'
 
@@ -72,8 +85,10 @@ class SocialDeanon:
             print('  Результат:')
             for b in req_answer:
                 print('  ' + b)
-            print(ravno)
         else:
             print('\n Этот ник в социальных сетях не найден!')
+
+        print(self.telegram(), end="")
+        print(ravno)
 
         input()
