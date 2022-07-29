@@ -6,63 +6,74 @@ green = Fore.GREEN
 magenta = Fore.MAGENTA
 
 
-def SocialDeanon():
-    nickname = input('\n [+] Введите никнейм для деанона: ')
+class SocialDeanon:
+    def __init__(self):
+        self.nickname = input('\n [+] Enter nickname: ')
+        self.nickname = self.nickname.replace('@', '')
 
-    req_list = [
-        'https://www.instagram.com/',
-        'https://github.com/',
-        'https://rt.pornhub.com/users/',
-        'https://ok.ru/',
-        'https://vk.com/',
-        'https://soundcloud.com/',
-        'https://www.tumblr.com/blog/view/',
-        'https://twitter.com/',
-        'https://ask.fm/',
-        'https://znanija.com/app/profile/',
-        'https://www.deviantart.com/',
-        'https://www.flickr.com/',
-        'https://ru.linkedin.com/in/',
-        'https://myspace.com/',
-        'https://www.pinterest.com/',
-        'https://www.reddit.com/r/',
-        'https://www.reddit.com/user/'
-    ]
+        self.output()
 
-    req_answer = []
+    def availability(self):
+        req_list = [
+            'https://www.instagram.com/',
+            'https://github.com/',
+            'https://rt.pornhub.com/users/',
+            'https://ok.ru/',
+            'https://vk.com/',
+            'https://soundcloud.com/',
+            'https://www.tumblr.com/blog/view/',
+            'https://twitter.com/',
+            'https://ask.fm/',
+            'https://znanija.com/app/profile/',
+            'https://www.deviantart.com/',
+            'https://www.flickr.com/',
+            'https://ru.linkedin.com/in/',
+            'https://myspace.com/',
+            'https://www.pinterest.com/',
+            'https://www.reddit.com/r/',
+            'https://www.reddit.com/user/'
+        ]
 
-    i = 1
-    for req_url in req_list:
-        social_req = req_url + nickname
+        req_answer = []
 
-        try:
-            res = requests.get(social_req)
-            if res:
-                print(green, ' ', social_req)
-                req_answer.append(social_req)
-            else:
-                print(red, ' ', social_req)
-        except:
-            print(magenta, ' ', social_req)
-    print(Style.RESET_ALL)
+        i = 1
+        for req_url in req_list:
+            social_req = req_url + self.nickname
 
-    q = int(len(nickname))
-    if q <= 5:
-        ravno = ' ========================================='
-    elif q > 5 and q <= 12:
-        ravno = ' ================================================'
-    elif q > 12:
-        ravno - ' ============================================================='
-    else:
-        ravno = 'ERROR'
+            try:
+                res = requests.get(social_req)
+                if res:
+                    print(green, ' ', social_req)
+                    req_answer.append(social_req)
+                else:
+                    print(red, ' ', social_req)
+            except:
+                print(magenta, ' ', social_req)
+        print(Style.RESET_ALL)
 
-    a = len(req_answer)
-    if a >= 1:
-        print(ravno)
-        print('  Результат:')
-        for b in req_answer:
-            print('  ' + b)
-        print(ravno)
-    else:
-        print('\n Этот ник в социальных сетях не найден!')
-    input()
+        return req_answer
+
+    def output(self):
+        req_answer = self.availability()
+
+        q = int(len(self.nickname))
+        if q <= 5:
+            ravno = ' ========================================='
+        elif q > 5 and q <= 12:
+            ravno = ' ================================================'
+        elif q > 12:
+            ravno - ' ============================================================='
+        else:
+            ravno = 'ERROR'
+
+        a = len(req_answer)
+        if a >= 1:
+            print(ravno)
+            print('  Результат:')
+            for b in req_answer:
+                print('  ' + b)
+            print(ravno)
+        else:
+            print('\n Этот ник в социальных сетях не найден!')
+
+        input()

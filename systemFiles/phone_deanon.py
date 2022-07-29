@@ -5,7 +5,7 @@ from phonenumbers import carrier, timezone, region_code_for_country_code
 
 class PhoneNumber:
     def __init__(self):
-        self.number = input(' [+] Enter phone: ')
+        self.number = input('\n [+] Enter phone: ')
         self.number = self.number.replace('+', '')
 
         self.output()
