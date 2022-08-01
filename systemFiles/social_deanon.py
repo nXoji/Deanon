@@ -69,26 +69,18 @@ class SocialDeanon:
     def output(self):
         req_answer = self.availability()
 
-        q = int(len(self.nickname))
-        if q <= 5:
-            ravno = ' ========================================='
-        elif q > 5 and q <= 12:
-            ravno = ' ================================================'
-        elif q > 12:
-            ravno = ' ============================================================='
-        else:
-            ravno = 'ERROR'
+        len_design = 2 + 33 + len(self.nickname)
 
         a = len(req_answer)
         if a >= 1:
-            print(ravno)
+            print(' ' + '=' * len_design)
             print('  Результат:')
-            for b in req_answer:
-                print('  ' + b)
+            for i in req_answer:
+                print('  ' + i)
         else:
             print('\n Этот ник в социальных сетях не найден!')
 
         print(self.telegram(), end="")
-        print(ravno)
+        print(' ' + '=' * len_design)
 
         input()
