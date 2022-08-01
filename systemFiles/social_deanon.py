@@ -20,6 +20,9 @@ class SocialDeanon:
         soup = BeautifulSoup(response.text, 'lxml')
         quote = soup.find('div', class_="tgme_page_description")
 
+        if quote == None:
+            return ""
+
         temp = quote.text.strip()
 
         if temp != f"If you have Telegram, you can contact @{self.nickname} right away.":
