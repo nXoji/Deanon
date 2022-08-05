@@ -41,8 +41,8 @@ class IpInfo:
                 pass
 
         for i in range(65535):
-            potoc = threading.Thread(target=scan_port, args=(self.ip, i))
-            potoc.start()
+            thread_ = threading.Thread(target=scan_port, args=(self.ip, i))
+            thread_.start()
 
         return openPortsList
 
