@@ -2,15 +2,15 @@ import requests
 from bs4 import BeautifulSoup
 from colorama import Fore, Style
 
-red = Fore.RED
-green = Fore.GREEN
-magenta = Fore.MAGENTA
-
 
 class SocialDeanon:
     def __init__(self):
         self.nickname = input('\n [+] Enter nickname: ')
         self.nickname = self.nickname.replace('@', '')
+
+        self.red = Fore.RED
+        self.green = Fore.GREEN
+        self.magenta = Fore.MAGENTA
 
         self.output()
 
@@ -59,12 +59,12 @@ class SocialDeanon:
             try:
                 res = requests.get(social_req)
                 if res:
-                    print(green, ' ', social_req)
+                    print(self.green, ' ', social_req)
                     req_answer.append(social_req)
                 else:
-                    print(red, ' ', social_req)
+                    print(self.red, ' ', social_req)
             except:
-                print(magenta, ' ', social_req)
+                print(self.magenta, ' ', social_req)
         print(Style.RESET_ALL)
 
         return req_answer
