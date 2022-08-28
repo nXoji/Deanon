@@ -1,2 +1,5 @@
 colorama==0.4.4
 requests==2.27.1
+beautifulsoup4~=4.11.1
+pycountry~=22.3.5
+phonenumbers~=8.12.51
