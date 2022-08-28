@@ -10,35 +10,35 @@ class PhoneNumber:
 
         self.output()
 
-    def defaultInfo(self):
+    def default_info(self):
         try:
-            phoneNum = phonenumbers.parse(f'+{self.number}', None)
+            phone_num = phonenumbers.parse(f'+{self.number}', None)
         except:
             raise ValueError('Номер введён не верно')
 
-        countryIso = region_code_for_country_code(phoneNum.country_code)
-        country = pycountry.countries.get(alpha_2=countryIso)
+        country_iso = region_code_for_country_code(phone_num.country_code)
+        country = pycountry.countries.get(alpha_2=country_iso)
 
-        operator = carrier.name_for_number(phoneNum, None)
+        operator = carrier.name_for_number(phone_num, None)
         if operator == '':
             operator = 'Не найдено'
 
-        timezoneInfo = timezone.time_zones_for_number(phoneNum)
-        if len(timezoneInfo) > 1:
-            timezoneInfo = f'{len(timezoneInfo)} штук'
-        elif len(timezoneInfo) == 1:
-            timezoneInfo = ''.join(timezoneInfo)
+        timezone_info = timezone.time_zones_for_number(phone_num)
+        if len(timezone_info) > 1:
+            timezone_info = f'{len(timezone_info)} штук'
+        elif len(timezone_info) == 1:
+            timezone_info = ''.join(timezone_info)
 
         out = {
             'country': country.name,
             'operator': operator,
-            'timezone': timezoneInfo
+            'timezone': timezone_info
         }
 
         return out
 
     def output(self):
-        data = self.defaultInfo()
+        data = self.default_info()
 
         print(f''' =====================================
    Номер:         +{self.number}

@@ -13,7 +13,7 @@ reset = Style.RESET_ALL
 
 
 def logo():
-    logoText = """\n\n
+    logo_text = """\n\n
  ██████╗░███████╗░█████╗░███╗░░██╗░█████╗░███╗░░██╗
  ██╔══██╗██╔════╝██╔══██╗████╗░██║██╔══██╗████╗░██║
  ██║░░██║█████╗░░███████║██╔██╗██║██║░░██║██╔██╗██║
@@ -22,9 +22,9 @@ def logo():
  ╚═════╝░╚══════╝╚═╝░░╚═╝╚═╝░░╚══╝░╚════╝░╚═╝░░╚══╝
     """
 
-    os.system('cls||clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-    for line in logoText.split('\n'):
+    for line in logo_text.split('\n'):
         print(line)
         time.sleep(0.1)
 
@@ -36,7 +36,7 @@ def main():
     logo()
 
     while True:
-        os.system('cls||clear')
+        os.system('cls' if os.name == 'nt' else 'clear')
         print('''
  ╭━╮╭━┳━━━┳━╮╱╭┳╮╱╭╮
  ┃┃╰╯┃┃╭━━┫┃╰╮┃┃┃╱┃┃
@@ -44,7 +44,8 @@ def main():
  ┃┃┃┃┃┃╭━━┫┃╰╮┃┃┃╱┃┃
  ┃┃┃┃┃┃╰━━┫┃╱┃┃┃╰━╯┃
  ╰╯╰╯╰┻━━━┻╯╱╰━┻━━━╯''')
-        print(' Вы в главном меню\n 1) Проверка по нику\n 2) Проверка IP-adress\n 3) Проверка BSSID\n 4) Проверка по номеру телефона')
+        print(' Вы в главном меню\n 1) Проверка по нику\n 2) Проверка IP-adress \n'
+              ' 3) Проверка BSSID\n 4) Проверка по номеру телефона')
         print(' 0) ! ВЫХОД !')
         home_page = int(input('\n [+] Cделайте выбор: '))
 
@@ -55,7 +56,7 @@ def main():
         elif home_page == 2:
             idn.IpInfo()
         elif home_page == 3:
-            idn.BSSIDinfo()
+            idn.bssid_info()
         elif home_page == 4:
             phd.PhoneNumber()
         else:

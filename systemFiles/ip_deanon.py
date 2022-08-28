@@ -16,7 +16,7 @@ class IpInfo:
 
         self.output()
 
-    def defaultInfo(self):
+    def default_info(self):
         r = requests.get(f'http://ip-api.com/json/{self.ip}').json()
         host = socket.getnameinfo((self.ip, 0), socket.NI_NAMEREQD)
 
@@ -27,15 +27,15 @@ class IpInfo:
 
         return out
 
-    def openPorts(self):
-        openPortsList = []
+    def open_ports(self):
+        open_ports_list = []
 
         def scan_port(ip, port):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(0.5)
             try:
                 sock.connect((ip, port))
-                openPortsList.append(str(port))
+                open_ports_list.append(str(port))
                 sock.close()
             except:
                 pass
@@ -44,7 +44,7 @@ class IpInfo:
             thread_ = threading.Thread(target=scan_port, args=(self.ip, i))
             thread_.start()
 
-        return openPortsList
+        return open_ports_list
 
     def csgo(self):
         url = f'https://www.gametracker.com/search/csgo/?query={self.ip}'
@@ -105,19 +105,19 @@ class IpInfo:
     def output(self):
 
         def len_design():
-            list = [len(self.csgo()), len(self.minecraft()),
-                    len(self.unturned()), len(self.arma())]
-            max_len = max(list)
+            len_list = [len(self.csgo()), len(self.minecraft()),
+                        len(self.unturned()), len(self.arma())]
+            max_len = max(len_list)
 
             return 14 + max_len + 1
 
-        default = self.defaultInfo()
+        default = self.default_info()
         api = default['api']
         host = default['host']
 
-        openPorts = self.openPorts()
+        open_ports = self.open_ports()
 
-        print(' ' + "="*len_design() + f'''
+        print(' ' + "=" * len_design() + f'''
   IP adress:   {self.ip}
   Country:     {api["country"]}
   Region:      {api["region"]}\n  Region Name: {api["regionName"]}
@@ -125,15 +125,15 @@ class IpInfo:
   Latinude:    {api["lat"]}\n  Longitude:   {api["lon"]}
   Timezone:    {api["timezone"]}\n  ISP:         {api["isp"]}
   Org:         {api["org"]}\n  As:          {api["as"]}
-  Host:        {host[0]}\n  Open ports:  {', '.join(openPorts)}
+  Host:        {host[0]}\n  Open ports:  {', '.join(open_ports)}
   Minecraft:   {self.minecraft()}\n  CS:GO:       {self.csgo()}
   Unturned:    {self.unturned()}\n  Arma 3:      {self.arma()}
- ''' + "="*len_design())
+ ''' + "=" * len_design())
 
         input()
 
 
-def BSSIDinfo():
+def bssid_info():
     print('\n ============================')
     query = input(f'  BSSID: ')
     try:
@@ -147,10 +147,10 @@ def BSSIDinfo():
             print(f'  Latinude: {lat}\n  Longitude: {lon}')
             print(' =============================')
         else:
-            errorCode = data["message"]
-            errorMessage = data["desc"]
+            error_code = data["message"]
+            error_message = data["desc"]
             print(
-                f'  Error code: {errorCode}\n  Error message: {errorMessage}')
+                f'  Error code: {error_code}\n  Error message: {error_message}')
             print(' ============================')
     except:
         print(f' НАПИШИ ВЕРНО!')
