@@ -32,9 +32,7 @@ def logo():
     time.sleep(2)
 
 
-def main():
-    logo()
-
+def menu():
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print('''
@@ -65,4 +63,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    logo()
+    menu()
