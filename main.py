@@ -2,9 +2,7 @@ import os
 import time
 from colorama import init, Fore, Style
 
-import systemFiles.social_deanon as sd
-import systemFiles.ip_deanon as idn
-import systemFiles.phone_deanon as phd
+from systemFiles import social_deanon, ip_deanon, phone_deanon
 
 init()
 
@@ -13,7 +11,7 @@ reset = Style.RESET_ALL
 
 
 def logo():
-    logo_text = """\n\n
+    logo_text = """
  ██████╗░███████╗░█████╗░███╗░░██╗░█████╗░███╗░░██╗
  ██╔══██╗██╔════╝██╔══██╗████╗░██║██╔══██╗████╗░██║
  ██║░░██║█████╗░░███████║██╔██╗██║██║░░██║██╔██╗██║
@@ -50,13 +48,13 @@ def menu():
         if home_page == 0:
             break
         elif home_page == 1:
-            sd.SocialDeanon()
+            social_deanon.SocialDeanon()
         elif home_page == 2:
-            idn.IpInfo()
+            ip_deanon.IpInfo()
         elif home_page == 3:
-            idn.bssid_info()
+            ip_deanon.bssid_info()
         elif home_page == 4:
-            phd.PhoneNumber()
+            phone_deanon.PhoneNumber()
         else:
             print(red + ' Введите существующий пункт меню!' + reset)
             continue
